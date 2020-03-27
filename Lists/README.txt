@@ -17,3 +17,6 @@ products.txt - Input data for simpleLinkedList.c
 
 simpleLinkedList.c - Simple demo showing an application-specific linked list that includes both data and "next" link in each list element
 
+linkedListUtil.c - Module that can create and manage multiple lists, used for building more complex data structures (e.g. simple hash tables). Hides details via an opaque LISTHANDLE.
+
+linkedListUtil.h - Declarations for linkedListUtil.c
