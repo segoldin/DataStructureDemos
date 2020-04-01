@@ -1,8 +1,6 @@
 # DataStructureDemos
 Demonstration programs for teaching data structures and algorithms in standard C
 
-[More demos coming soon]
-
 This repository is a collection of demonstration programs in standard Gnu C that I have developed over many years teaching introductory data structures to undergraduate students in Computer Engineering at King Mongkut's University of Technology Thonburi, Bangkok, Thailand. 
 
 I am making it open source in the hope that these programs will be useful for other instructors. When I began teaching this course, I had serious difficulty finding clear, readable sample code written in C. My objective is to help fill this gap.
