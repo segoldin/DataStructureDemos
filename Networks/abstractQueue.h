@@ -1,4 +1,4 @@
-/**
+/*
  *  abstractQueue.h
  *
  *  Header file defining the operations that one can

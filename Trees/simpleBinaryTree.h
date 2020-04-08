@@ -74,7 +74,7 @@ void freeTree(TREE_T * pTree);
 
 /* Traverse and print using the specified order
  * structure
- * Argument
+ * Arguments
  *   pTree   - public structure
  *   order   - code for traversal order (see constants above)
  */

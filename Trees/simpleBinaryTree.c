@@ -28,7 +28,7 @@
  *   pNode      - node we are inquiring about
  * Return 0, 1 or 2
  */
-int childCount(NODE_T* pNode)
+int childCount(NODE_T *pNode)
 {
     int count = 0;
     if (pNode->left != NULL)
@@ -44,138 +44,138 @@ int childCount(NODE_T* pNode)
  *    pRoot       - pointer to a node
  *    pNewNode    - new node - data already assigned
  */
-void insertNode(NODE_T* pRoot, NODE_T* pNewNode)
+void insertNode(NODE_T *pRoot, NODE_T *pNewNode)
 {
-     NODE_T * pNextNode = NULL;
-     queueClear();
-     enqueue(pRoot);
-     while ((pNextNode = dequeue()) != NULL)
-         {
-         if (pNextNode->left == NULL)
-            {
+    NODE_T *pNextNode = NULL;
+    queueClear();
+    enqueue(pRoot);
+    while ((pNextNode = dequeue()) != NULL)
+    {
+	if (pNextNode->left == NULL)
+	{
 	    pNextNode->left = pNewNode;
-            printf("Added new node(%s) as left child of (%s)\n",
-		pNewNode->data,pNextNode->data);
+	    printf("Added new node(%s) as left child of (%s)\n",
+		   pNewNode->data, pNextNode->data);
 	    break;
-            }
-         else if (pNextNode->right == NULL)
-            {
+	}
+	else if (pNextNode->right == NULL)
+	{
 	    pNextNode->right = pNewNode;
-            printf("Added new node(%s) as right child of (%s)\n",
-		pNewNode->data,pNextNode->data);
-            break;
-            }
-         else 
-            {
+	    printf("Added new node(%s) as right child of (%s)\n",
+		   pNewNode->data, pNextNode->data);
+	    break;
+	}
+	else
+	{
 	    enqueue(pNextNode->left);
-            enqueue(pNextNode->right);
-	    }
-	 }
+	    enqueue(pNextNode->right);
+	}
+    }
 }
 
 
-void freeNode(NODE_T* pNode)
+void freeNode(NODE_T *pNode)
 {
-  free(pNode->data);  /* we allocated this, so we delete it */
-  free(pNode);
+    free(pNode->data);		/* we allocated this, so we delete it */
+    free(pNode);
 }
 
 /* Traverse a tree (in order traversal) and execute the
  * function 'nodeFunction' on each element
- * Argument
+ * Arguments
  *    pCurrent     -   current node
  *    nodeFunction -   function to execute on each node
  */
-void traverseInOrder(NODE_T* pCurrent,void (*nodeFunction)(NODE_T* pNode ))
+void traverseInOrder(NODE_T *pCurrent, void (*nodeFunction) (NODE_T *pNode))
 {
     if (pCurrent->left != NULL)
-       {
-       traverseInOrder(pCurrent->left,nodeFunction); 
-       }
-    (*nodeFunction)(pCurrent);
+    {
+	traverseInOrder(pCurrent->left, nodeFunction);
+    }
+    (*nodeFunction) (pCurrent);
     if (pCurrent->right != NULL)
-       {
-       traverseInOrder(pCurrent->right,nodeFunction); 
-       }
+    {
+	traverseInOrder(pCurrent->right, nodeFunction);
+    }
 }
 
 /* Traverse a tree (post order traversal) and execute the
  * function 'nodeFunction' on each element
- * Argument
+ * Arguments
  *    pCurrent     -   current node
  *    nodeFunction -   function to execute on each node
  */
-void traversePostOrder(NODE_T* pCurrent,void (*nodeFunction)(NODE_T* pNode ))
+void traversePostOrder(NODE_T *pCurrent, void (*nodeFunction) (NODE_T *pNode))
 {
     if (pCurrent->left != NULL)
-       {
-       traversePostOrder(pCurrent->left,nodeFunction); 
-       }
+    {
+	traversePostOrder(pCurrent->left, nodeFunction);
+    }
     if (pCurrent->right != NULL)
-       {
-       traversePostOrder(pCurrent->right,nodeFunction); 
-       }
-    (*nodeFunction)(pCurrent);
+    {
+	traversePostOrder(pCurrent->right, nodeFunction);
+    }
+    (*nodeFunction) (pCurrent);
 }
 
 
 /* Traverse a tree (pre order traversal) and execute the
  * function 'nodeFunction' on each element
- * Argument
+ * Arguments
  *    pCurrent     -   current node
  *    nodeFunction -   function to execute on each node
  */
-void traversePreOrder(NODE_T* pCurrent,void (*nodeFunction)(NODE_T* pNode ))
+void traversePreOrder(NODE_T *pCurrent, void (*nodeFunction) (NODE_T *pNode))
 {
-    (*nodeFunction)(pCurrent);
+    (*nodeFunction) (pCurrent);
     if (pCurrent->left != NULL)
-       {
-       traversePreOrder(pCurrent->left,nodeFunction); 
-       }
+    {
+	traversePreOrder(pCurrent->left, nodeFunction);
+    }
     if (pCurrent->right != NULL)
-       {
-       traversePreOrder(pCurrent->right,nodeFunction); 
-       }
+    {
+	traversePreOrder(pCurrent->right, nodeFunction);
+    }
 }
 
 
 /* Traverse a tree using level order and execute the
  * function 'nodeFunction' on each element
- * Argument
+ * Arguments
  *    pRoot     -      root node
  *    nodeFunction -   function to execute on each node
  */
-void traverseLevelOrder(NODE_T* pRoot,void (*nodeFunction)(NODE_T* pNode ))
+void traverseLevelOrder(NODE_T *pRoot, void (*nodeFunction) (NODE_T *pNode))
 {
-    NODE_T* pNode = NULL;
+    NODE_T *pNode = NULL;
     queueClear();
     enqueue(pRoot);
     /* when the queue is empty, there are no more nodes to visit */
     while (queueSize() > 0)
-       {
-       pNode = (NODE_T*) dequeue(); 
-       (*nodeFunction)(pNode);
-       if (pNode->left != NULL)
-          {
-	  /* put the left child on the queue */
-	  enqueue(pNode->left); 
-          }
-       if (pNode->right != NULL)
-          {
-	  /* put the right child on the queue */
-	  enqueue(pNode->right); 
-          }
-       }
+    {
+	pNode = (NODE_T *) dequeue();
+	(*nodeFunction) (pNode);
+	if (pNode->left != NULL)
+	{
+	    /* put the left child on the queue */
+	    enqueue(pNode->left);
+	}
+	if (pNode->right != NULL)
+	{
+	    /* put the right child on the queue */
+	    enqueue(pNode->right);
+	}
+    }
 }
 
 
 /*
  *  Function to print data from a node. Passed to
  *  various traversal functions.
- *  Argument
+ *  Arguments
  *     pNode   -  Node to process
  */
-void printNodeData(NODE_T* pNode)
+void printNodeData(NODE_T *pNode)
 {
     printf("Node %p ==> %s\n", pNode, pNode->data);
 }
@@ -189,9 +189,9 @@ void printNodeData(NODE_T* pNode)
  * the tree.
  * Returns pointer to allocated tree, or null if memory allocation fails 
  */
-TREE_T * createTree()
+TREE_T *createTree()
 {
-    TREE_T * pTree = calloc(1,sizeof(TREE_T));
+    TREE_T *pTree = calloc(1, sizeof(TREE_T));
     queueClear();
     return pTree;
 }
@@ -203,34 +203,34 @@ TREE_T * createTree()
  *    pDataItem    - new data to be inserted in the tree 
  * Returns 1 for success, 0 if memory allocation error occurred.
  */
-int insertItem(TREE_T* pTree, char* pDataItem)
+int insertItem(TREE_T *pTree, char *pDataItem)
 {
     int status = 1;
-    char* pNewDataItem = NULL;
-    NODE_T * pNewNode = NULL;
+    char *pNewDataItem = NULL;
+    NODE_T *pNewNode = NULL;
     /* create a copy of the data */
     pNewDataItem = strdup(pDataItem);
     /* create the new node */
-    pNewNode = (NODE_T*) calloc(1,sizeof(NODE_T));
+    pNewNode = (NODE_T *) calloc(1, sizeof(NODE_T));
     if ((pNewNode == NULL) || (pNewDataItem == NULL))
-       {
-       status = 0;
-       }
+    {
+	status = 0;
+    }
     else
-       {
-       pNewNode->data = pNewDataItem;
-       pNewNode->count = 1;
-       if (pTree->root == NULL)
-          {
-          pTree->root = pNewNode;
-          printf("Node (%s) is the root\n", pNewNode->data);
-          }
-       else
-	  {    
-          insertNode(pTree->root,pNewNode);
-          }
-       pTree->itemcount++; 
-       } 
+    {
+	pNewNode->data = pNewDataItem;
+	pNewNode->count = 1;
+	if (pTree->root == NULL)
+	{
+	    pTree->root = pNewNode;
+	    printf("Node (%s) is the root\n", pNewNode->data);
+	}
+	else
+	{
+	    insertNode(pTree->root, pNewNode);
+	}
+	pTree->itemcount++;
+    }
     return status;
 }
 
@@ -238,50 +238,50 @@ int insertItem(TREE_T* pTree, char* pDataItem)
  * Then free the TREE_T object itself.
  * This needs to be a post order traversal
  */
-void freeTree(TREE_T * pTree)
+void freeTree(TREE_T *pTree)
 {
-   queueClear();
-   if (pTree != NULL)
-      {
-      if (pTree->root != NULL)
-          traversePostOrder(pTree->root,&freeNode);
-      free(pTree);
-      }
-} 
+    queueClear();
+    if (pTree != NULL)
+    {
+	if (pTree->root != NULL)
+	    traversePostOrder(pTree->root, &freeNode);
+	free(pTree);
+    }
+}
 
 
 /* Traverse and print using the specified order
  * structure
- * Argument
+ * Arguments
  *   pTree   - public structure
  *   order   - code for traversal order (see constants in .h file)
  */
-void printTree(TREE_T * pTree, int order)
+void printTree(TREE_T *pTree, int order)
 {
     if (pTree == NULL)
-        printf("Tree not created yet!\n");
+	printf("Tree not created yet!\n");
     else if (pTree->root == NULL)
-        printf("Tree is empty!\n");
+	printf("Tree is empty!\n");
     else
-        {
+    {
 	switch (order)
-	    {
-	    case PREORDER:
-		traversePreOrder(pTree->root,&printNodeData);
-		break;
-	    case INORDER:
-		traverseInOrder(pTree->root,&printNodeData);
-		break;
-            case POSTORDER:
-		traversePostOrder(pTree->root,&printNodeData);
-		break;
-            case LEVELORDER:
-		traverseLevelOrder(pTree->root,&printNodeData);
-		break;
-	    default:
-                printf("Invalid order constant in printTree!\n");
-	    }
-        } 
+	{
+	case PREORDER:
+	    traversePreOrder(pTree->root, &printNodeData);
+	    break;
+	case INORDER:
+	    traverseInOrder(pTree->root, &printNodeData);
+	    break;
+	case POSTORDER:
+	    traversePostOrder(pTree->root, &printNodeData);
+	    break;
+	case LEVELORDER:
+	    traverseLevelOrder(pTree->root, &printNodeData);
+	    break;
+	default:
+	    printf("Invalid order constant in printTree!\n");
+	}
+    }
 
 }
 
@@ -294,10 +294,10 @@ void printTree(TREE_T * pTree, int order)
  *  Argument
  *     pNode   -  Node to process
  */
-void printLeafNodeData(NODE_T* pNode)
+void printLeafNodeData(NODE_T *pNode)
 {
     if (childCount(pNode) == 0)
-       printf("Leaf Node %p ==> %s\n", pNode, pNode->data);
+	printf("Leaf Node %p ==> %s\n", pNode, pNode->data);
 }
 
 
@@ -307,18 +307,18 @@ void printLeafNodeData(NODE_T* pNode)
  * Argument
  *   pTree   - public structure
  */
-void printLeafData(TREE_T * pTree)
+void printLeafData(TREE_T *pTree)
 {
     if (pTree == NULL)
-        printf("Tree not created yet!\n");
+	printf("Tree not created yet!\n");
     else if (pTree->root == NULL)
-        printf("Tree is empty!\n");
+	printf("Tree is empty!\n");
     else
-	traversePostOrder(pTree->root,&printLeafNodeData);
+	traversePostOrder(pTree->root, &printLeafNodeData);
     /* You could use any of the three traversals here. The
      * results should not change.
-     */ 
- 
+     */
+
 }
 
 
@@ -328,28 +328,28 @@ void printLeafData(TREE_T * pTree)
  * Argument
  *   pTree   - public structure
  * Return 0 if tree is empty, -1 if tree not created yet
- */ 
-int maxTreeDepth(TREE_T * pTree)
+ */
+int maxTreeDepth(TREE_T *pTree)
 {
-    int count = 0;    
+    int count = 0;
     if (pTree == NULL)
-        {
+    {
 	printf("Tree not created yet!\n");
-        count = -1;
-	}
+	count = -1;
+    }
     else if (pTree->root == NULL)
-        {
-        printf("Tree is empty!\n");
-	}
+    {
+	printf("Tree is empty!\n");
+    }
     else
-        {
-	NODE_T * pCurrent = pTree->root;
-        while (pCurrent != NULL)
-	   {
-	   count += 1;
-	   pCurrent = pCurrent->left;
-	   } 
-        }
+    {
+	NODE_T *pCurrent = pTree->root;
+	while (pCurrent != NULL)
+	{
+	    count += 1;
+	    pCurrent = pCurrent->left;
+	}
+    }
     return count;
 }
 
@@ -360,13 +360,13 @@ int maxTreeDepth(TREE_T * pTree)
  *    pNode   -  current node
  *    pCount  -  pointer to accumulating count
  */
-void countLevels(NODE_T* pNode, int * pCount)
+void countLevels(NODE_T *pNode, int *pCount)
 {
     if (pNode != NULL)
-       {
-       *pCount = *pCount + 1;
-       countLevels(pNode->left,pCount);
-       }
+    {
+	*pCount = *pCount + 1;
+	countLevels(pNode->left, pCount);
+    }
 }
 
 
@@ -375,24 +375,24 @@ void countLevels(NODE_T* pNode, int * pCount)
  * Argument
  *   pTree   - public structure
  * Return 0 if tree is empty, -1 if tree not created yet
- */ 
-int maxTreeDepthR(TREE_T * pTree)
+ */
+int maxTreeDepthR(TREE_T *pTree)
 {
-    int count = 0;    
+    int count = 0;
     if (pTree == NULL)
-        {
+    {
 	printf("Tree not created yet!\n");
-        count = -1;
-	}
+	count = -1;
+    }
     else if (pTree->root == NULL)
-        {
-        printf("Tree is empty!\n");
-	}
+    {
+	printf("Tree is empty!\n");
+    }
     else
-        {
-	NODE_T * pCurrent = pTree->root;
-        countLevels(pCurrent,&count);
-        }
+    {
+	NODE_T *pCurrent = pTree->root;
+	countLevels(pCurrent, &count);
+    }
     return count;
 }
 
@@ -404,16 +404,16 @@ int maxTreeDepthR(TREE_T * pTree)
  *    level   -  tree level of parent - starts at 0 
  *    pMaxLevel  -  pointer to maximum level found so far
  */
-void findMaxLevel(NODE_T* pNode, int level, int * pMaxLevel)
+void findMaxLevel(NODE_T *pNode, int level, int *pMaxLevel)
 {
     if (pNode != NULL)
-       {
-       level = level + 1;
-       if (level > *pMaxLevel)
-           *pMaxLevel = level;
-       findMaxLevel(pNode->left,level, pMaxLevel);
-       findMaxLevel(pNode->right,level, pMaxLevel);
-       }
+    {
+	level = level + 1;
+	if (level > *pMaxLevel)
+	    *pMaxLevel = level;
+	findMaxLevel(pNode->left, level, pMaxLevel);
+	findMaxLevel(pNode->right, level, pMaxLevel);
+    }
 }
 
 
@@ -424,23 +424,23 @@ void findMaxLevel(NODE_T* pNode, int level, int * pMaxLevel)
  * Argument
  *   pTree   - public structure
  * Return 0 if tree is empty, -1 if tree not created yet
- */ 
-int maxTreeDepthG(TREE_T * pTree)
+ */
+int maxTreeDepthG(TREE_T *pTree)
 {
-    int count = 0;    
+    int count = 0;
     if (pTree == NULL)
-        {
+    {
 	printf("Tree not created yet!\n");
-        count = -1;
-	}
+	count = -1;
+    }
     else if (pTree->root == NULL)
-        {
-        printf("Tree is empty!\n");
-	}
+    {
+	printf("Tree is empty!\n");
+    }
     else
-        {
-	NODE_T * pCurrent = pTree->root;
-        findMaxLevel(pCurrent,0,&count);
-        }
+    {
+	NODE_T *pCurrent = pTree->root;
+	findMaxLevel(pCurrent, 0, &count);
+    }
     return count;
 }

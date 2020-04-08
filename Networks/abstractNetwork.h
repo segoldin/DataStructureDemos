@@ -69,7 +69,7 @@ void* removeVertex(char* key);
  * is not found. Returns -1 if an edge already
  * exists in this direction.
  */
-int addEdge(char* key1, char* key2, unsigned int weight);
+int addEdge(char* key1, char* key2, int weight);
 
 
 /* Remove an edge between two vertices
@@ -128,18 +128,6 @@ int printBreadthFirst(char* startKey);
 /* Print out all the nodes by a depth-first search.
  */
 void printDepthFirst();
-
-
-/* Print out the minimum spanning tree with total
- * weight, using Prim's algorithm.
- * Arguments
- *    startKey    -  Key of start vertex
- * Returns the sum of the weights along all edges in
- * the network. Returns -1 if start key is invalid.
- * Returns -2 if network is directed
- */
-int printMinSpanningTreePrim(char* startKey);
-
 
 /* Print out the lowest weight path from one vertex to 
  * another through the network using Dijkstra's

@@ -1,109 +1,111 @@
-/**
+/*
  *   linkedListQueue.c 
  *
  *   Linked list implementation of an abstract queue
- *
- *   Created by Sally Goldin, 18 January 2012, for CPE 113
  *
  *  Copyright 2020 by Sally E. Goldin
  *
  *  May be freely copied and modified for educational purposes
  *  as long as this notice is retained in the header.
  *  Note this code is not intended for real-world applications.
+ *
  */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "abstractQueue.h"
 
-
 /* Structure that represents one item of the list */
 typedef struct _listitem
 {
-    void* data;               /* Pointer to the data for this node */
-    struct _listitem * next;  /* Link to the next item in the list */
+    void *pData;		/* Pointer to the data for this node */
+    struct _listitem *pNext;	/* Link to the next item in the list */
 } LISTITEM_T;
 
-static int count = 0;              /* number of items in the queue */
-static LISTITEM_T * head = NULL;   /* front item in the queue */
-static LISTITEM_T * tail = NULL;   /* end item in the queue */
 
+/* global head and tail pointers */
+LISTITEM_T *head = NULL;	/* first item in list */
+LISTITEM_T *tail = NULL;	/* last item in the list */
+
+int count = 0;			/* for convenience, keep track of current size */
 
 /**
  * Add a data item to the queue (end of the list)
- * @param  data   Pointer to generic data we want to add to queue   
- * @return 1 if successful, 0 if we have run out of space.
+ * Arguments:
+ *   data      -   Pointer to generic data we want to add to queue   
+ * Returns 1 if successful, 0 if we have run out of space.
  */
-int enqueue(void* data)
+int enqueue(void *data)
 {
-   int bOk = 1;
-   LISTITEM_T * newItem = (LISTITEM_T *)calloc(1,sizeof(LISTITEM_T));
-   if (newItem == NULL)
-       {
-       bOk = 0;
-       }
-   else
-       {
-       newItem->data = data;  /* store the data */
-       if (head == NULL)       /* nothing in the queue yet */
-          {
-	  head = newItem;      
-          }
-       else
-          {
-	  tail->next = newItem;  /* add to the end of the queue */ 
-          }
-       tail = newItem;         /* either way the new item is now the end */
-       count++;
-       }
-   return bOk;
+    int bOk = 1;
+    LISTITEM_T *pNew = calloc(1, sizeof(LISTITEM_T));
+    /* If allocation was successful */
+    if (pNew != NULL)
+    {
+	pNew->pData = data;	/* copy the data to the list item */
+	if (head == NULL)	/* queue is empty */
+	{
+	    head = pNew;
+	}
+	else
+	{
+	    tail->pNext = pNew;	/* add to end of queue */
+	}
+	tail = pNew;		/* and update the tail */
+	count++;
+    }
+    else
+    {
+	bOk = 0;
+    }
+    return bOk;
 }
 
 
-/**  Get the next item in the queue. This is the element 
+/* Get the next item in the queue. This is the element 
  * at the front of the queue.
- * @return the data stored at the front of the queue. Also removes 
- * that item from the queue. Returns NULL if the queue is empty.
+ * Returns the data stored at the front of the queue.
+ * Also removes that item from the queue.
+ * Returns NULL if the queue is empty.
  */
-void * dequeue()
+void *dequeue()
 {
-   void * returnData = NULL;
-   if (count > 0)
-      {
-      LISTITEM_T * firstItem = head;
-      returnData = firstItem->data;
-      head = firstItem->next;
-      if (head == NULL)  /* if that was the last item on the queue */
-	  tail = NULL;
-      free(firstItem);
-      count--;
-      }
-   return returnData;
+    void *returnData = NULL;
+    if (count > 0)
+    {
+	LISTITEM_T *pFirst = head;	/* we will dequeue the first item */
+	returnData = pFirst->pData;
+	head = pFirst->pNext;	/* after dequeue we'll have a new head */
+	if (head == NULL)	/* if this was last item in queue */
+	    tail = NULL;
+	count--;
+	free(pFirst);
+    }
+    return returnData;
 }
 
 
-/** Find out how many items are currently in the queue.
- * @return number of items in the queue (could be zero)
+/* Find out how many items are currently in the queue.
+ * Return number of items in the queue (could be zero)
  */
 int queueSize()
 {
-   return count;
+    return count;
 }
 
 
-/** Clear the queue so we can reuse 
+/* Clear so we can reuse 
  */
 void queueClear()
 {
-    int i = 0;
-    LISTITEM_T * item = head;
-    LISTITEM_T * freeItem = NULL;
-    while (item != NULL)
-       {
-       freeItem = item;
-       item = item->next;
-       free(freeItem);
-       }
+    LISTITEM_T *pCurrent = head;
+    LISTITEM_T *pTrash = NULL;
+    while (pCurrent != NULL)
+    {
+	pTrash = pCurrent;
+	pCurrent = pCurrent->pNext;
+	free(pTrash);
+    }
     /* reset head, tail and count */
     head = NULL;
     tail = NULL;
@@ -114,17 +116,15 @@ void queueClear()
 /** DEBUGGING FUNCTION PRINTS SOME INFO ABOUT THE QUEUE **/
 void printDebug()
 {
-   int i, j;
-   printf("count = %d   head = %p  tail = %p\n",
-	  count, head, tail);
-   if (count > 0)
-      {
-      printf("Contents: \n");
-      LISTITEM_T * item = head;
-      while (item != NULL)
-        {
-	printf("\t\t%s\n", item->data);
-	item = item->next;
+    printf("linkedListQueue: count = %d\n", count);
+    if (count > 0)
+    {
+	printf("Contents: \n");
+	LISTITEM_T *pCurrent = head;
+	while (pCurrent != NULL)
+	{
+	    printf("\t\t%s\n", pCurrent->pData);
+	    pCurrent = pCurrent->pNext;
 	}
-      }
+    }
 }

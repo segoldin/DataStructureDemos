@@ -6,7 +6,11 @@
  *  the list are pointers to structures. We also need to
  *  provide a comparison function during the initialization.
  *
- *  Created by Sally Goldin, 3 February for CPE113
+ *  Copyright 2020 by Sally E. Goldin
+ *
+ *  May be freely copied and modified for educational purposes
+ *  as long as this notice is retained in the header.
+ *  Note this code is not intended for real-world applications.
  *
  */
 
