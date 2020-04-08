@@ -16,8 +16,8 @@
 
 #define MAXSIZE 100
 
-int stack[MAXSIZE];   /* this is where we store the stack data */
-int top = -1;         /* the zeroth element is the base of the stack */
+int stack[MAXSIZE];		/* this is where we store the stack data */
+int top = -1;			/* the zeroth element is the base of the stack */
 
 /**
  * Push a data item onto the stack 
@@ -29,12 +29,12 @@ int pushInt(int intdata)
 {
     int bOk = 0;
     if (top < MAXSIZE - 1)
-       {
-       top++;
-       stack[top] = intdata;
-       bOk = 1; 	
-       } 
-    return bOk; 
+    {
+	top++;
+	stack[top] = intdata;
+	bOk = 1;
+    }
+    return bOk;
 }
 
 
@@ -45,13 +45,13 @@ int pushInt(int intdata)
  */
 int popInt()
 {
-   int val = UNDERFLOW;
-   if (top >= 0)
-      {
-      val = stack[top];
-      top--;
-      }   
-   return val; 
+    int val = UNDERFLOW;
+    if (top >= 0)
+    {
+	val = stack[top];
+	top--;
+    }
+    return val;
 }
 
 
@@ -61,7 +61,7 @@ int popInt()
  */
 int stackSizeInt()
 {
-    return top+1;
+    return top + 1;
 }
 
 
@@ -79,9 +79,8 @@ void stackClearInt()
 void printDebugInt()
 {
     int i;
-    printf("%s","[STACK TOP]\n");
+    printf("%s", "[STACK TOP]\n");
     for (i = top; i >= 0; i++)
-        printf("%d\n",stack[i]);
-    printf("%s","[STACK BOTTOM]\n");
+	printf("%d\n", stack[i]);
+    printf("%s", "[STACK BOTTOM]\n");
 }
-

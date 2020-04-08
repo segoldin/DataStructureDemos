@@ -11,10 +11,10 @@
  *  May be freely copied and modified for educational purposes
  *  as long as this notice is retained in the header.
  *  Note this code is not intended for real-world applications.
- */ 
+ */
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>	/* memcpy */
+#include <string.h>		/* memcpy */
 #include <limits.h>
 #include <glob.h>
 #include <sys/types.h>
@@ -24,12 +24,12 @@
 #include "filesearch.h"
 
 static glob_t globbuf;
-static char** pFileNameList = NULL;
-static int lastCount = 0;  /* keep track of the number of 
-                            * elements in the last allocated
-                            * file name list so we can do the
-			    * free
-                            */
+static char **pFileNameList = NULL;
+static int lastCount = 0;	/* keep track of the number of 
+				 * elements in the last allocated
+				 * file name list so we can do the
+				 * free
+				 */
 
 
 /* Free the list of file names allocatd by the previous
@@ -40,14 +40,14 @@ static int lastCount = 0;  /* keep track of the number of
  * NOTE - because this function is declared 'static', it
  * cannot be seen outside this module.
  */
-static void freeFileList(char** fileList, int count)
+static void freeFileList(char **fileList, int count)
 {
-   int i;
-   for (i = 0; i < count; i++)
-      {
-      free(fileList[i]);
-      }
-   free(fileList);
+    int i;
+    for (i = 0; i < count; i++)
+    {
+	free(fileList[i]);
+    }
+    free(fileList);
 }
 
 
@@ -55,13 +55,14 @@ static void freeFileList(char** fileList, int count)
  * returns the part after the last separator.
  * which is assumed to be the node plus extension.
  * Tests for the Unix/Linux separator only.
- * @param pczInputFile filename with path
- * @return filename without path (actually, a pointer into the
- *         input buffer).
+ * Arguments
+ *   pczInputFile     Filename with path
+ * Returns filename without path 
+ * (actually, a pointer into the input buffer).
  */
-char* stripPath(char* pczInputFile)
+char *stripPath(char *pczInputFile)
 {
-    char* nodeStart = &pczInputFile[strlen(pczInputFile) - 1];
+    char *nodeStart = &pczInputFile[strlen(pczInputFile) - 1];
     while ((nodeStart > pczInputFile) && (*nodeStart != '/'))
 	nodeStart--;
     if (*nodeStart == '/')
@@ -80,50 +81,49 @@ char* stripPath(char* pczInputFile)
  *  to getFileList. If no files found or an error occurred, returns
  *  NULL. Check value stored in pCount to determine which.
  */
-char ** getFileList(const char * directory, 
-			    int* pCount)
+char **getFileList(const char *directory, int *pCount)
 {
     int globStat;
     int i = 0;
     char pattern[PATH_MAX];
     *pCount = 0;
     if (pFileNameList != NULL)
-        freeFileList(pFileNameList, lastCount);
+	freeFileList(pFileNameList, lastCount);
     lastCount = 0;
     pFileNameList = NULL;
     globbuf.gl_offs = 0;
-    strcpy(pattern,directory);
-    strcat(pattern,"/*");
-    globStat = glob(pattern,0,NULL,&globbuf);
+    strcpy(pattern, directory);
+    strcat(pattern, "/*");
+    globStat = glob(pattern, 0, NULL, &globbuf);
     if (globStat == 0)
-        {
+    {
 	*pCount = globbuf.gl_pathc;
-        if (*pCount > 0)
-	   {
-	   pFileNameList = (char**) calloc(*pCount,sizeof(char**));
-           if (pFileNameList != NULL)
-	      {
-	      for (i = 0; i < *pCount; i++)
-		  pFileNameList[i] = strdup(globbuf.gl_pathv[i]);
-              lastCount = *pCount;
-	      }
-           else
-	      {
-	      printf("Allocation failed in building file list\n");
-	      *pCount = -1;
-	      }
-           } 
-        }
+	if (*pCount > 0)
+	{
+	    pFileNameList = (char **) calloc(*pCount, sizeof(char **));
+	    if (pFileNameList != NULL)
+	    {
+		for (i = 0; i < *pCount; i++)
+		    pFileNameList[i] = strdup(globbuf.gl_pathv[i]);
+		lastCount = *pCount;
+	    }
+	    else
+	    {
+		printf("Allocation failed in building file list\n");
+		*pCount = -1;
+	    }
+	}
+    }
     else if (globStat == GLOB_ABORTED)
-       {
-       printf("Read error in building file list\n");
-       *pCount = -1;
-       }
+    {
+	printf("Read error in building file list\n");
+	*pCount = -1;
+    }
     else if (globStat == GLOB_NOSPACE)
-       {
-       printf("Not enough memory to build file list\n");
-       *pCount = -1;
-       }
+    {
+	printf("Not enough memory to build file list\n");
+	*pCount = -1;
+    }
     return pFileNameList;
 }
 
@@ -132,15 +132,15 @@ char ** getFileList(const char * directory,
  *    filename           Name of file with full path
  * Returns 1 if this file is a directory, 0 if not.
  */
-int isDirectory(const char* filename)
+int isDirectory(const char *filename)
 {
-   int bDirectory = 0;
-   struct stat buffer;
-   stat(filename,&buffer);
-   unsigned int mode = buffer.st_mode;
-   if ((mode & S_IFMT) == S_IFDIR)
-      bDirectory = 1;
-   return bDirectory;
+    int bDirectory = 0;
+    struct stat buffer;
+    stat(filename, &buffer);
+    unsigned int mode = buffer.st_mode;
+    if ((mode & S_IFMT) == S_IFDIR)
+	bDirectory = 1;
+    return bDirectory;
 }
 
 /*  Free any memory associated with the global 
@@ -148,9 +148,9 @@ int isDirectory(const char* filename)
  */
 void cleanupList()
 {
-  if (pFileNameList != NULL)
-     {
-     freeFileList(pFileNameList, lastCount);
-     pFileNameList = NULL;
-     }
+    if (pFileNameList != NULL)
+    {
+	freeFileList(pFileNameList, lastCount);
+	pFileNameList = NULL;
+    }
 }
