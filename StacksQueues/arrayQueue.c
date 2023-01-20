@@ -58,10 +58,10 @@ void *dequeue()
     void *returnData = NULL;
     if (count > 0)
     {
-	returnData = queue[headIndex];
-	queue[headIndex] = NULL;
-	headIndex = (headIndex + 1) % MAXSIZE;
-	count--;
+        returnData = queue[headIndex];
+        queue[headIndex] = NULL;
+        headIndex = (headIndex + 1) % MAXSIZE;
+        count--;
     }
     return returnData;
 }
@@ -83,9 +83,9 @@ void queueClear()
     int i = 0;
     for (i = 0; i < MAXSIZE; i++)
     {
-	if (queue[i] != NULL)
-	    free(queue[i]);
-	queue[i] = NULL;
+        if (queue[i] != NULL)
+            free(queue[i]);
+        queue[i] = NULL;
     }
     /* reset head, tail and count */
     headIndex = 0;
@@ -103,12 +103,12 @@ void printDebug()
 	   count, headIndex, tailIndex);
     if (count > 0)
     {
-	printf("Contents: \n");
-	i = headIndex;
-	for (j = 0; j < count; j++)
-	{
-	    printf("\t\t%s\n", (char *) queue[i]);
-	    i = (i + 1) % MAXSIZE;
-	}
+	   printf("Contents: \n");
+	   i = headIndex;
+	   for (j = 0; j < count; j++)
+	   {
+            printf("\t\t%s\n", (char *) queue[i]);
+            i = (i + 1) % MAXSIZE;
+	   }
     }
 }

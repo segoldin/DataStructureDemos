@@ -70,66 +70,66 @@ int evaluate(char *expression)
     stackClearInt();
     for (p = 0; p < len; p++)
     {
-	item = (int) expression[p];
-	if ((item >= A_ASCII) && (item <= Z_ASCII))
-	    item = (item - A_ASCII) % 2;	/* convert to 1 or 0 */
-	if (item == LPAREN)
-	{
-	    continue;
+		item = (int) expression[p];
+		if ((item >= A_ASCII) && (item <= Z_ASCII))
+	    	item = (item - A_ASCII) % 2;	/* convert to 1 or 0 */
+		if (item == LPAREN)
+		{
+	    	continue;
+		}
+		else if (item == RPAREN)
+		{
+	    	v2 = popInt();
+	    	op = popInt();
+	    	v1 = popInt();
+	    	if ((v2 == UNDERFLOW) || (v1 == UNDERFLOW) || (op == UNDERFLOW))
+	    	{
+				bError = TRUE;
+				printf("\tInvalid expression syntax\n");
+				break;
+	    	}
+	    	if (op == AND)
+				result = v1 && v2;
+	    	else if (op == OR)
+				result = v1 || v2;
+	    	else
+	    	{
+				bError = TRUE;
+				printf("\tInvalid expression syntax\n");
+				break;
+	    	}
+	    	if (!pushInt(result))	/* if 0, overflow */
+	    	{
+				bError = TRUE;
+				printf("\tStack is full!\n");
+				break;
+	    	}
+		}
+		else
+		{
+			if (!pushInt(item))	/* if 0, overflow */
+	    	{
+				bError = TRUE;
+				printf("\tStack is full!\n");
+				break;
+	    	}
+		}
 	}
-	else if (item == RPAREN)
-	{
-	    v2 = popInt();
-	    op = popInt();
-	    v1 = popInt();
-	    if ((v2 == UNDERFLOW) || (v1 == UNDERFLOW) || (op == UNDERFLOW))
-	    {
-		bError = TRUE;
-		printf("\tInvalid expression syntax\n");
-		break;
-	    }
-	    if (op == AND)
-		result = v1 && v2;
-	    else if (op == OR)
-		result = v1 || v2;
-	    else
-	    {
-		bError = TRUE;
-		printf("\tInvalid expression syntax\n");
-		break;
-	    }
-	    if (!pushInt(result))	/* if 0, overflow */
-	    {
-		bError = TRUE;
-		printf("\tStack is full!\n");
-		break;
-	    }
-	}
-	else
-	{
-	    if (!pushInt(item))	/* if 0, overflow */
-	    {
-		bError = TRUE;
-		printf("\tStack is full!\n");
-		break;
-	    }
-	}
+    if (!bError)
+    {
+		result = popInt();
+		/* return the result as long as there was no previous error
+	 	 * and the stack is now empty 
+	 	 */
+		if ((result == UNDERFLOW) || (stackSizeInt() != 0))
+		{
+	    	bError = TRUE;
+	    	printf("\tInvalid expression syntax\n");
+		}
     }
     if (!bError)
     {
-	result = popInt();
-	/* return the result as long as there was no previous error
-	 * and the stack is now empty 
-	 */
-	if ((result == UNDERFLOW) || (stackSizeInt() != 0))
-	{
-	    bError = TRUE;
-	    printf("\tInvalid expression syntax\n");
-	}
-    }
-    if (!bError)
-    {
-	retValue = result;
+		retValue = result;
     }
     /* if there was an error, we will return -1 */
     return retValue;
@@ -153,7 +153,7 @@ int main()
     {
 	memset(expression, 0, sizeof(expression));
 	memset(input, 0, sizeof(input));
-	printf("Enter logical expression to evaluate: ");
+	printf("Enter logical expression to evaluate (DONE to exit): ");
 	fgets(input, sizeof(input), stdin);
 	if (strncasecmp(input, "DONE", 4) == 0)
 	    break;
@@ -162,21 +162,20 @@ int main()
 	for (i = 0; (i < strlen(input)) && (input[i] != '\n'); i++)
 	{
 	    if (isspace(input[i]))
-		continue;
+			continue;
 	    else if (!strchr(allowedchars, input[i]))
 	    {
-		printf("\tInvalid character in expression: %c\n", input[i]);
-		break;
+			printf("\tInvalid character in expression: %c\n", input[i]);
+			break;
 	    }
 	    else
-		expression[j++] = input[i];
+			expression[j++] = input[i];
 	}
 	if (i < strlen(input) - 1)	/* did not finish loop because of error */
 	    continue;		/* throw this expression away, ask for a new one */
 	result = evaluate(expression);
 	if (result >= 0)
-	    printf("\t%s truth value is %s\n", expression,
-		   (result ? "TRUE" : "FALSE"));
+	    printf("\t%s truth value is %s\n", expression,(result ? "TRUE" : "FALSE"));
     }
 
     printf("Bye!\n");

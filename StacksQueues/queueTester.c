@@ -32,47 +32,47 @@ int main(int arc, char *argv[])
     int choice = getMenuOption();
     while (choice != 5)
     {
-	switch (choice)
-	{
-	case 1:		/* enqueue */
-	    {
-		newString = getTimestampString();
-		printf("About to enqueue: %s\n", newString);
-		if (!enqueue(newString))
+		switch (choice)
 		{
-		    printf("Error! queue is full!\n");
-		    free(newString);
-		}
-		break;
-	    }
-	case 2:
-	    {
-		removedString = dequeue();
-		if (removedString == NULL)
-		{
-		    printf("Error! queue is empty!\n");
-		}
-		else
-		{
-		    printf("Dequeued: %s\n", removedString);
-		    free(removedString);
-		}
-		break;
-	    }
-	case 3:
-	    {
-		queueClear();
-		break;
-	    }
-	case 4:
-	    {
-		printDebug();
-		break;
-	    }
-	default:
-	    printf("Invalid option - we should never get here!\n");
-	}			/* end switch  */
-	choice = getMenuOption();
+			case 1:		/* enqueue */
+	    	{
+				newString = getTimestampString();
+				printf("About to enqueue: %s\n", newString);
+				if (!enqueue(newString))
+				{
+		    		printf("Error! queue is full!\n");
+		    		free(newString);
+				}
+				break;
+	    	}
+			case 2:
+	    	{
+				removedString = dequeue();
+				if (removedString == NULL)
+				{
+		    		printf("Error! queue is empty!\n");
+				}
+				else
+				{
+		    		printf("Dequeued: %s\n", removedString);
+		    		free(removedString);
+				}
+				break;
+	    	}
+			case 3:
+	    	{
+				queueClear();
+				break;
+	    	}
+			case 4:
+	    	{
+				printDebug();
+				break;
+	    	}
+			default:
+	    		printf("Invalid option - we should never get here!\n");
+		}			/* end switch  */
+		choice = getMenuOption();
     }				/* end while loop */
 
 /* exit here - we're done */

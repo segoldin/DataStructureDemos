@@ -32,47 +32,47 @@ int main(int arc, char *argv[])
     int choice = getMenuOption();
     while (choice != 5)
     {
-	switch (choice)
-	{
-	case 1:		/* push */
-	    {
-		newString = getTimestampString();
-		printf("About to push: %s\n", newString);
-		if (!push(newString))
+		switch (choice)
 		{
-		    printf("Error! stack is full!\n");
-		    free(newString);
-		}
-		break;
-	    }
-	case 2:		/* pop */
-	    {
-		removedString = pop();
-		if (removedString == NULL)
-		{
-		    printf("Error! stack is empty!\n");
-		}
-		else
-		{
-		    printf("Popped: %s\n", removedString);
-		    free(removedString);
-		}
-		break;
-	    }
-	case 3:
-	    {
-		stackClear();
-		break;
-	    }
-	case 4:
-	    {
-		printDebug();
-		break;
-	    }
-	default:
-	    printf("Invalid option - we should never get here!\n");
-	}			/* end switch  */
-	choice = getMenuOption();
+			case 1:		/* push */
+	    	{
+				newString = getTimestampString();
+				printf("About to push: %s\n", newString);
+				if (!push(newString))
+				{
+		    		printf("Error! stack is full!\n");
+		    		free(newString);
+				}
+				break;
+	    	}
+			case 2:		/* pop */
+	    	{
+				removedString = pop();
+				if (removedString == NULL)
+				{
+		    		printf("Error! stack is empty!\n");
+				}
+				else
+				{
+		    		printf("Popped: %s\n", removedString);
+		    		free(removedString);
+				}
+				break;
+	    	}
+			case 3:
+	    	{
+				stackClear();
+				break;
+	    	}
+			case 4:
+	    	{
+				printDebug();
+				break;
+	    	}
+			default:
+	    		printf("Invalid option - we should never get here!\n");
+		}			/* end switch  */
+		choice = getMenuOption();
     }				/* end while loop */
 
 /* exit here - we're done */
