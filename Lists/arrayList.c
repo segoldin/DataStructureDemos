@@ -47,14 +47,14 @@ int listInit()
 {
     int retval = 1; /* return value */
     if (arrayList != NULL)
-       {
+    {
        listDestroy();    /* will also reset currentPosition, last Index */
-       }
+    }
     arrayList = (void**) calloc(MAXSIZE,sizeof(void*));
     if (arrayList == NULL)  /* allocation error */
-       {
+    {
        retval = 0;
-       }
+    }
     return retval;
 }
 
@@ -98,18 +98,18 @@ int listSize()
  */
 int listInsertEnd(void * data)
 {
-   int retval = 1;  /* assume success */
-   if (arrayList == NULL)
+    int retval = 1;  /* assume success */
+    if (arrayList == NULL)
        retval = -1;  /* invalid handle */
-   else if (lastIndex == (MAXSIZE - 1))
+    else if (lastIndex == (MAXSIZE - 1))
        retval = 0;   /* no more room in the list */
-   else 
-       {
+    else
+    {
        int pos = lastIndex + 1;
        arrayList[pos] = data;
        lastIndex = pos;
-       }
-   return retval;
+    }
+    return retval;
 }
 
 
@@ -120,24 +120,23 @@ int listInsertEnd(void * data)
  */
 void* listRemoveEnd()
 {
-   void* data = NULL;
-   /* If list initialized */
-   if (arrayList != NULL)
-      {
-      /* if there are any items in the list */ 
-      if (lastIndex >= 0)	  
-         {
-         int pos = lastIndex;
-         data = (void*) arrayList[pos];
-         lastIndex -= 1;
-         /* adjust current position (back up) if it was
-          * pointing to the end of the list 
-	  */
-	 if (currentPosition > lastIndex)
-	     currentPosition = lastIndex;
-         }
-      }
-   return data;
+    void* data = NULL;
+    /* If list initialized */
+    if (arrayList != NULL)
+    {
+    /* if there are any items in the list */ 
+        if (lastIndex >= 0)
+        {
+            int pos = lastIndex;
+            data = (void*) arrayList[pos];
+            lastIndex -= 1;
+            /* adjust current position (back up) if it was
+            * pointing to the end of the list */
+            if (currentPosition > lastIndex)
+	           currentPosition = lastIndex;
+        }
+    }
+    return data;
 }
 
 /* Resets the "current" list pointer to the beginning
@@ -168,19 +167,18 @@ int listReset()
 void* listGetNext()
 {
     void * data = NULL;
-   /* If list is initialized */
-   if (arrayList != NULL)
-      {
-      /* if there are any items in the list */ 
-      if ((lastIndex >= 0) && 
-          (currentPosition <= lastIndex))	  
-         {
-         int pos = currentPosition;
-         data = arrayList[pos];
-         currentPosition++;
-         }
-      }
-   return data;
+    /* If list is initialized */
+    if (arrayList != NULL)
+    {
+        /* if there are any items in the list */ 
+        if ((lastIndex >= 0) && (currentPosition <= lastIndex))
+        {
+            int pos = currentPosition;
+            data = arrayList[pos];
+            currentPosition++;
+        }
+    }
+    return data;
 }
 
 /* Find out if the current list position is past the

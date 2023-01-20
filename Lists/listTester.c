@@ -36,87 +36,84 @@ int main(int argc, char* argv[])
     int choice = getMenuOption();
     while (choice != 6)
     {
-	switch (choice)
-	{
-	    case 1:
+		switch (choice)
+		{
+	    	case 1:
 	        {
-		retval = listInit();
-		if (retval)
-		    printf("List created or re-created\n");
-		else
-		    printf("Memory allocation error\n");
-		break;
+				retval = listInit();
+				if (retval)
+		    		printf("List created or re-created\n");
+				else
+		    		printf("Memory allocation error\n");
+				break;
 	        }
-	    case 2:
+	    	case 2:
 	        {
-		printf("About to call listDestroy\n");
-		listDestroy();
-		break;
+				printf("About to call listDestroy\n");
+				listDestroy();
+				break;
 	        }
-	    case 3:
+	    	case 3:
 	        {
-		printf("Enter string to add to list: ");
-		fgets(input,sizeof(input),stdin);
-		/* keep any blanks in the string */
-		memset(stringval,0,sizeof(stringval));
-		strncpy(stringval,input,strlen(input)-1);
-		dupString = strdup(stringval);
-		retval = listInsertEnd(dupString);
-		if (retval == 1)
-		    {
-		    printf("Success - list now holds %d elements\n",
-			   listSize());
-		    }
-		else if (retval == 0)
-		    {
-		    printf("No more room in list - list already has %d elements\n",
-			   listSize());
-		    }
+				printf("Enter string to add to list: ");
+				fgets(input,sizeof(input),stdin);
+				/* keep any blanks in the string */
+				memset(stringval,0,sizeof(stringval));
+				strncpy(stringval,input,strlen(input)-1);
+				dupString = strdup(stringval);
+				retval = listInsertEnd(dupString);
+				if (retval == 1)
+		    	{
+		    		printf("Success - list now holds %d elements\n",listSize());
+		    	}
+				else if (retval == 0)
+		    	{
+		    		printf("No more room in list - list already has %d elements\n",listSize());
+		    	}
                 else if (retval < 0)
-		    {
-		    printf("List has not been initialized yet!\n");
-		    }
-
-		break;
-		}
-	    case 4:
+		    	{
+		    		printf("List has not been initialized yet!\n");
+		    	}
+				break;
+			}
+		    case 4:
 	        {
-		removedString = listRemoveEnd();
-		if (removedString != NULL)
-		    {
-		    printf("Success - removed {%s}\nList now holds %d elements\n",
-			   removedString, listSize());
-		    free(removedString);
-		    }
-		else 
-		    {
-		    printf("List was empty or never initialized\n");
-		    }
-		break;
+				removedString = listRemoveEnd();
+				if (removedString != NULL)
+		    	{
+		    		printf("Success - removed {%s}\nList now holds %d elements\n",
+			   		removedString, listSize());
+		    		free(removedString);
+				}
+				else 
+		    	{
+		    		printf("List was empty or never initialized\n");
+		    	}
+				break;
 	        }
-	    case 5:
+	    	case 5:
 	        {
-		retval = listReset();
-		if  (retval < 0)
-		    {
-		    printf("List has not been initialized yet!\n");
-		    }
-		else if (retval == 0)
-		    {
-		    printf("List is empty\n");
-		    }
-		else
-		    {
-		    char * listItem = NULL;
-		    while ((listItem = listGetNext()) != NULL)
-		       {
-		       printf("Got item: %s\n",listItem);
-		       }
-		    }
-		break;
-		}
-	    default:
-		printf("Invalid option - we should never get here!\n");
+				retval = listReset();
+				if  (retval < 0)
+				{
+					printf("List has not been initialized yet!\n");
+		    	}
+		    	else if (retval == 0)
+		    	{
+		    		printf("List is empty\n");
+		    	}
+				else
+				{
+		    		char * listItem = NULL;
+		    		while ((listItem = listGetNext()) != NULL)
+		       		{
+		       			printf("Got item: %s\n",listItem);
+		       		}
+		    	}
+				break;
+			}
+	    	default:
+				printf("Invalid option - we should never get here!\n");
 	    }  /* end switch  */
 	choice = getMenuOption();
     }      /* end while loop */
